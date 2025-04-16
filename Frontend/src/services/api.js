@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3000';
+// Use environment variables to dynamically set the API base URL
+const API_BASE_URL = process.env.NODE_ENV === 'production'
+  ? 'https://your-vercel-backend-url.vercel.app' // Replace with your production API URL
+  : 'http://localhost:3000'; // Default to localhost for local development
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -41,4 +44,4 @@ export const convertFile = async (file, onProgress) => {
   }
 };
 
-export default api; 
+export default api;
