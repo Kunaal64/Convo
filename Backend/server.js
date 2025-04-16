@@ -8,8 +8,16 @@ const { convertWordToPdf } = require('./converter');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Enable CORS
-app.use(cors());
+// ✅ Replace with your actual Vercel frontend URL
+const allowedOrigin = 'https://convo-rho.vercel.app';
+
+// Enable CORS only for your frontend domain
+app.use(cors({
+  origin: allowedOrigin,
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Ensure uploads directory exists
@@ -96,4 +104,4 @@ app.use((err, req, res, next) => {
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
-}); 
+});
