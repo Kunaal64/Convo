@@ -1,9 +1,7 @@
 import axios from 'axios';
 
 // Use environment variables to dynamically set the API base URL
-const API_BASE_URL = process.env.NODE_ENV === 'production'
-  ? 'https://your-vercel-backend-url.vercel.app' // Replace with your production API URL
-  : 'http://localhost:3000'; // Default to localhost for local development
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
