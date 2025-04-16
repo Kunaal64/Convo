@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { useTheme } from '../context/ThemeContext';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function Layout({ children }) {
   const { darkMode } = useTheme();

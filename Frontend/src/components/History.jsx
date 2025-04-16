@@ -3,6 +3,7 @@ import { FiClock, FiFile, FiDownload, FiTrash2, FiAlertCircle, FiTrash } from 'r
 import { useTheme } from '../context/ThemeContext';
 import { useHistory } from '../context/HistoryContext';
 import { format } from 'date-fns';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function History() {
   const { darkMode } = useTheme();

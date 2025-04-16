@@ -4,6 +4,7 @@ import { FiUploadCloud, FiFile, FiLoader, FiCheck, FiX, FiDownload } from 'react
 import { useHistory } from '../context/HistoryContext';
 import { useTheme } from '../context/ThemeContext';
 import { convertFile } from '../services/api';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 function Home() {
   const [file, setFile] = useState(null);
