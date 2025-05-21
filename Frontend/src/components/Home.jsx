@@ -19,7 +19,7 @@ function Home() {
   const [progress, setProgress] = useState(0);
   const { addToHistory } = useHistory();
   const { darkMode } = useTheme();
-
+// pp
   const onDrop = useCallback((acceptedFiles) => {
     if (acceptedFiles?.length) {
       setFile(acceptedFiles[0]);
