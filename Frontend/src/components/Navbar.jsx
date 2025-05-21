@@ -10,7 +10,7 @@ import {
   FiX,
 } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function Navbar() {
   const location = useLocation();
