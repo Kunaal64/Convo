@@ -10,6 +10,7 @@
     "author": "Akhil",
     "license": "ISC",
     "dependencies": {
+        "@clerk/nextjs": "^6.23.1",
         "cors": "^2.8.5",
         "docx-pdf": "^0.0.1",
         "express": "^4.19.2",
