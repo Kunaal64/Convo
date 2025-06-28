@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   FiHome,
   FiClock,
@@ -8,20 +8,13 @@ import {
   FiMoon,
   FiMenu,
   FiX,
-  FiLogIn,
-  FiUserPlus,
-  FiLogOut,
-  FiUser,
 } from "react-icons/fi";
 import { useTheme } from "../context/ThemeContext";
-import { useUser, useClerk } from "@clerk/clerk-react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 function Navbar() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { darkMode, toggleTheme } = useTheme();
-  const { user, isSignedIn } = useUser();
-  const { signOut } = useClerk();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isActive = (path) => location.pathname === path;
@@ -111,57 +104,8 @@ function Navbar() {
               <FiClock className="w-5 h-5" />
               <span>History</span>
             </Link>
-
-            {isSignedIn ? (
-              <div className="flex items-center space-x-4 ml-4">
-                <Link 
-                  to="/profile" 
-                  className="flex items-center space-x-2 hover:opacity-80 transition-opacity"
-                >
-                  <FiUser className="w-5 h-5" />
-                  <span className="text-sm">{user?.fullName || 'My Account'}</span>
-                </Link>
-                <button
-                  onClick={() => signOut(() => navigate('/'))}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    darkMode
-                      ? 'text-red-400 hover:text-red-300 hover:bg-gray-800'
-                      : 'text-red-600 hover:text-red-700 hover:bg-red-50'
-                  }`}
-                >
-                  <FiLogOut className="w-5 h-5" />
-                  <span>Sign out</span>
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2 ml-4">
-                <Link
-                  to="/sign-in"
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    darkMode
-                      ? 'text-blue-400 hover:text-blue-300 hover:bg-gray-800'
-                      : 'text-blue-600 hover:text-blue-700 hover:bg-blue-50'
-                  }`}
-                >
-                  <FiLogIn className="w-5 h-5" />
-                  <span>Sign in</span>
-                </Link>
-                <Link
-                  to="/sign-up"
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                    darkMode
-                      ? 'bg-blue-600 text-white hover:bg-blue-700'
-                      : 'bg-blue-600 text-white hover:bg-blue-700'
-                  }`}
-                >
-                  <FiUserPlus className="w-5 h-5" />
-                  <span>Sign up</span>
-                </Link>
-              </div>
-            )}
-
             <button
-              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-300 ml-2 ${
+              className={`flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-300 ml-4 ${
                 darkMode
                   ? "text-yellow-400 hover:text-yellow-300 hover:bg-gray-800"
                   : "text-gray-600 hover:text-indigo-600 hover:bg-gray-100"
@@ -236,51 +180,6 @@ function Navbar() {
           <Link to="/history" className={mobileNavLinkClasses("/history")}>
             <FiClock className="w-5 h-5 mr-3" /> History
           </Link>
-          
-          {isSignedIn ? (
-            <>
-              <div className="px-3 py-2 text-sm flex items-center">
-                <FiUser className="w-5 h-5 mr-3" />
-                <span>{user?.fullName || 'My Account'}</span>
-              </div>
-              <button
-                onClick={() => signOut(() => navigate('/'))}
-                className={`w-full flex items-center px-3 py-2 rounded-md text-sm font-medium ${
-                  darkMode
-                    ? 'text-red-400 hover:text-red-300 hover:bg-gray-800'
-                    : 'text-red-600 hover:text-red-700 hover:bg-red-50'
-                }`}
-              >
-                <FiLogOut className="w-5 h-5 mr-3" />
-                Sign out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                to="/sign-in"
-                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
-                  darkMode
-                    ? 'text-blue-400 hover:text-blue-300 hover:bg-gray-800'
-                    : 'text-blue-600 hover:text-blue-700 hover:bg-blue-50'
-                }`}
-              >
-                <FiLogIn className="w-5 h-5 mr-3" />
-                Sign in
-              </Link>
-              <Link
-                to="/sign-up"
-                className={`flex items-center px-3 py-2 rounded-md text-sm font-medium ${
-                  darkMode
-                    ? 'bg-blue-600 text-white hover:bg-blue-700'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                }`}
-              >
-                <FiUserPlus className="w-5 h-5 mr-3" />
-                Sign up
-              </Link>
-            </>
-          )}
         </div>
       </div>
     </nav>
