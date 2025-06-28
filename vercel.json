@@ -19,5 +19,6 @@
       "src": "/(.*)",
       "dest": "/Frontend/dist/index.html"
     }
-  ]
+  ],
+  "buildCommand": "cd Frontend && npm install && npm run vercel-build"
 }

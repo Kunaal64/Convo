@@ -12,19 +12,27 @@ export default defineConfig({
   },
   define: {
     'process.env.NODE_ENV': `"${process.env.NODE_ENV || 'production'}"`,
-    'process.env': {}
   },
   // For Vercel deployment
   build: {
     target: 'esnext',
-    minify: 'terser',
+    minify: 'esbuild', // Changed from 'terser' to 'esbuild' which is built-in
     sourcemap: false,
     outDir: 'dist',
+    chunkSizeWarningLimit: 1600,
   },
   server: {
     port: 3000,
   },
   preview: {
     port: 3000,
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      target: 'es2020',
+    },
+  },
+  esbuild: {
+    // Add ESBuild options here if needed
   },
 });
