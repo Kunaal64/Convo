@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, Outlet, useLocation } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { HistoryProvider } from './context/HistoryContext';
 import { useAuth } from '@clerk/clerk-react';
@@ -9,17 +9,41 @@ import History from './components/History';
 import LandingPage from './components/LandingPage';
 import SignInPage from './components/SignInPage';
 import SignUpPage from './components/SignUpPage';
-import AuroraPage from './components/AuroraPage';
 
 function ProtectedRoute({ children }) {
   const { isLoaded, isSignedIn } = useAuth();
+  const location = useLocation();
   
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   if (!isSignedIn) {
-    return <Navigate to="/signin" />;
+    // Store the current location they were trying to go to when they were redirected
+    return <Navigate to={`/signin?redirectUrl=${encodeURIComponent(location.pathname)}`} replace />;
+  }
+
+  return children;
+}
+
+function PublicRoute({ children }) {
+  const { isLoaded, isSignedIn } = useAuth();
+  
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (isSignedIn) {
+    // Redirect to dashboard if user is already signed in
+    return <Navigate to="/app" replace />;
   }
 
   return children;
@@ -29,25 +53,39 @@ function App() {
   return (
     <ThemeProvider>
       <HistoryProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/signin" element={<SignInPage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            
-            <Route path="/app" element={
-              <ProtectedRoute>
-                <Layout />
-              </ProtectedRoute>
-            }>
-              <Route index element={<Home />} />
-              <Route path="history" element={<History />} />
-              <Route path="aurora" element={<AuroraPage />} />
-            </Route>
-            
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </Router>
+        <Routes>
+          {/* Public routes - only accessible when not signed in */}
+          <Route path="/" element={
+            <PublicRoute>
+              <LandingPage />
+            </PublicRoute>
+          } />
+          <Route path="/signin" element={
+            <PublicRoute>
+              <SignInPage />
+            </PublicRoute>
+          } />
+          <Route path="/signup" element={
+            <PublicRoute>
+              <SignUpPage />
+            </PublicRoute>
+          } />
+          
+          {/* Protected routes */}
+          <Route path="/app" element={
+            <ProtectedRoute>
+              <Layout>
+                <Outlet />
+              </Layout>
+            </ProtectedRoute>
+          }>
+            <Route index element={<Home />} />
+            <Route path="history" element={<History />} />
+          </Route>
+          
+          {/* Catch all other routes */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </HistoryProvider>
     </ThemeProvider>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
 import { useAuth, UserButton } from "@clerk/clerk-react";
-import { FiHome, FiClock, FiSun, FiMoon, FiMenu, FiX, FiLogIn, FiUserPlus } from "react-icons/fi";
+import { FiHome, FiClock, FiSun, FiMoon, FiMenu, FiX, FiLogIn, FiUserPlus, FiZap } from "react-icons/fi";
 
 function Navbar() {
   const location = useLocation();
@@ -11,7 +11,11 @@ function Navbar() {
   const { isLoaded, isSignedIn } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    // Special handling for the dashboard/home route
+    if (path === '/app' && location.pathname === '/app') return true;
+    return location.pathname.startsWith(path) && path !== '/';
+  };
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -51,23 +55,43 @@ function Navbar() {
     }`}>
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:shadow-indigo-500/30 group-hover:scale-105">
-                <div className="w-6 h-6 text-white/90 relative">
-                  <svg viewBox="0 0 24 24" className="absolute inset-0" fill="currentColor">
-                    <path d="M21.17 2.06A13.1 13.1 0 0019 1.87a12.94 12.94 0 00-7 2.05 12.94 12.94 0 00-7-2.05c-.74 0-1.47.06-2.17.19C1.7 2.21 1 3.06 1 4.04v13.92c0 .81.5 1.53 1.25 1.8.32.12.66.17 1 .17.7 0 1.38-.21 1.96-.61.86-.59 2.54-1.44 4.79-1.44 2.24 0 3.93.85 4.79 1.44.58.4 1.26.61 1.96.61.34 0 .68-.05 1-.17.75-.27 1.25-1 1.25-1.8V4.04c0-.98-.7-1.83-1.83-1.98zM11 14.915c-.66-.32-1.6-.66-3-.66-1.4 0-2.34.34-3 .66V4.495c.66-.32 1.6-.66 3-.66 1.4 0 2.34.34 3 .66v10.42zm9 0c-.66-.32-1.6-.66-3-.66-1.4 0-2.34.34-3 .66V4.495c.66-.32 1.6-.66 3-.66 1.4 0 2.34.34 3 .66v10.42z" />
-                  </svg>
+          {isSignedIn ? (
+            <Link to="/app" className="flex items-center space-x-2 group">
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:shadow-indigo-500/30 group-hover:scale-105">
+                  <div className="w-6 h-6 text-white/90 relative">
+                    <svg viewBox="0 0 24 24" className="absolute inset-0" fill="currentColor">
+                      <path d="M21.17 2.06A13.1 13.1 0 0019 1.87a12.94 12.94 0 00-7 2.05 12.94 12.94 0 00-7-2.05c-.74 0-1.47.06-2.17.19C1.7 2.21 1 3.06 1 4.04v13.92c0 .81.5 1.53 1.25 1.8.32.12.66.17 1 .17.7 0 1.38-.21 1.96-.61.86-.59 2.54-1.44 4.79-1.44 2.24 0 3.93.85 4.79 1.44.58.4 1.26.61 1.96.61.34 0 .68-.05 1-.17.75-.27 1.25-1 1.25-1.8V4.04c0-.98-.7-1.83-1.83-1.98zM11 14.915c-.66-.32-1.6-.66-3-.66-1.4 0-2.34.34-3 .66V4.495c.66-.32 1.6-.66 3-.66 1.4 0 2.34.34 3 .66v10.42zm9 0c-.66-.32-1.6-.66-3-.66-1.4 0-2.34.34-3 .66V4.495c.66-.32 1.6-.66 3-.66 1.4 0 2.34.34 3 .66v10.42z" />
+                    </svg>
+                  </div>
                 </div>
+                <div className={`absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full ring-2 transition-all duration-300 ${
+                  darkMode ? "ring-gray-900" : "ring-white"
+                }`}></div>
               </div>
-              <div className={`absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full ring-2 transition-all duration-300 ${
-                darkMode ? "ring-gray-900" : "ring-white"
-              }`}></div>
-            </div>
-            <span className="font-bold text-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
-              Convo
-            </span>
-          </Link>
+              <span className="font-bold text-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                Convo
+              </span>
+            </Link>
+          ) : (
+            <Link to="/" className="flex items-center space-x-2 group">
+              <div className="relative">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:shadow-indigo-500/30 group-hover:scale-105">
+                  <div className="w-6 h-6 text-white/90 relative">
+                    <svg viewBox="0 0 24 24" className="absolute inset-0" fill="currentColor">
+                      <path d="M21.17 2.06A13.1 13.1 0 0019 1.87a12.94 12.94 0 00-7 2.05 12.94 12.94 0 00-7-2.05c-.74 0-1.47.06-2.17.19C1.7 2.21 1 3.06 1 4.04v13.92c0 .81.5 1.53 1.25 1.8.32.12.66.17 1 .17.7 0 1.38-.21 1.96-.61.86-.59 2.54-1.44 4.79-1.44 2.24 0 3.93.85 4.79 1.44.58.4 1.26.61 1.96.61.34 0 .68-.05 1-.17.75-.27 1.25-1 1.25-1.8V4.04c0-.98-.7-1.83-1.83-1.98zM11 14.915c-.66-.32-1.6-.66-3-.66-1.4 0-2.34.34-3 .66V4.495c.66-.32 1.6-.66 3-.66 1.4 0 2.34.34 3 .66v10.42zm9 0c-.66-.32-1.6-.66-3-.66-1.4 0-2.34.34-3 .66V4.495c.66-.32 1.6-.66 3-.66 1.4 0 2.34.34 3 .66v10.42z" />
+                    </svg>
+                  </div>
+                </div>
+                <div className={`absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full ring-2 transition-all duration-300 ${
+                  darkMode ? "ring-gray-900" : "ring-white"
+                }`}></div>
+              </div>
+              <span className="font-bold text-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                Convo
+              </span>
+            </Link>
+          )}
           
           {isSignedIn && (
             <nav className="hidden items-center space-x-4 text-sm font-medium md:flex">
@@ -144,6 +168,10 @@ function Navbar() {
               <Link to="/app/history" className={mobileNavLinkClasses("/app/history")}>
                 <FiClock className="mr-2 inline-block h-5 w-5" />
                 History
+              </Link>
+              <Link to="/app/aurora" className={mobileNavLinkClasses("/app/aurora")}>
+                <FiZap className="mr-2 inline-block h-5 w-5" />
+                Aurora Demo
               </Link>
             </>
           ) : (
