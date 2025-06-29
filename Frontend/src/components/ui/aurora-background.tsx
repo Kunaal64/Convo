@@ -15,22 +15,17 @@ export const AuroraBackground = ({
 }: AuroraBackgroundProps) => {
   return (
     <main className="relative">
-      <div
-        className={cn(
-          "fixed inset-0 overflow-hidden -z-10",
-          className
-        )}
-      >
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 dark:from-zinc-900 dark:to-zinc-950" />
+      <div className={cn("fixed inset-0 overflow-hidden -z-10", className)}>
+        {/* Background gradient - more subtle in light mode */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950" />
         
-        {/* Aurora effect */}
+        {/* Aurora effect - more subtle in light mode */}
         <div 
-          className="absolute -inset-24 opacity-50"
+          className="absolute -inset-24 opacity-30 dark:opacity-50 transition-opacity duration-300"
           style={{
             backgroundImage:
-              'radial-gradient(at 40% 20%, hsla(28, 100%, 74%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 80% 50%, hsla(340, 100%, 76%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 0% 100%, hsla(22, 100%, 77%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 80% 100%, hsla(242, 100%, 70%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 0% 0%, hsla(343, 100%, 76%, 0.5) 0px, transparent 50%)',
-            animation: 'aurora 15s ease infinite',
+              'radial-gradient(at 40% 20%, hsla(220, 100%, 74%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 80% 0%, hsla(200, 100%, 56%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 0% 50%, hsla(220, 100%, 93%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 80% 50%, hsla(260, 100%, 76%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 0% 100%, hsla(220, 100%, 77%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 80% 100%, hsla(240, 100%, 70%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 0% 0%, hsla(220, 100%, 76%, 0.3) 0px, transparent 50%)',
+            animation: 'aurora 20s ease infinite',
             backgroundSize: '200% 200%',
             backgroundPosition: '50% 50%',
           }}
@@ -48,20 +43,22 @@ export const AuroraBackground = ({
           <div
             className={cn(
               `
-              [--white-gradient:repeating-linear-gradient(100deg,var(--white)_0%,var(--white)_7%,var(--transparent)_10%,var(--transparent)_12%,var(--white)_16%)]
-              [--dark-gradient:repeating-linear-gradient(100deg,var(--black)_0%,var(--black)_7%,var(--transparent)_10%,var(--transparent)_12%,var(--black)_16%)]
-              [--aurora:repeating-linear-gradient(100deg,var(--blue-500)_10%,var(--indigo-300)_15%,var(--blue-300)_20%,var(--violet-200)_25%,var(--blue-400)_30%)]
-              [background-image:var(--white-gradient),var(--aurora)]
-              dark:[background-image:var(--dark-gradient),var(--aurora)]
+              [--light-gradient:repeating-linear-gradient(100deg,hsla(0,0%,100%,0.9)_0%,hsla(0,0%,100%,0.9)_7%,transparent_10%,transparent_12%,hsla(0,0%,100%,0.9)_16%)]
+              [--dark-gradient:repeating-linear-gradient(100deg,hsla(0,0%,0%,0.9)_0%,hsla(0,0%,0%,0.9)_7%,transparent_10%,transparent_12%,hsla(0,0%,0%,0.9)_16%)]
+              [--light-aurora:repeating-linear-gradient(100deg,hsla(220,100%,70%,0.2)_10%,hsla(220,100%,80%,0.15)_15%,hsla(220,100%,85%,0.1)_20%,hsla(260,100%,90%,0.08)_25%,hsla(220,100%,80%,0.15)_30%)]
+              [--dark-aurora:repeating-linear-gradient(100deg,hsla(220,100%,70%,0.5)_10%,hsla(220,100%,80%,0.4)_15%,hsla(220,100%,85%,0.3)_20%,hsla(260,100%,90%,0.2)_25%,hsla(220,100%,80%,0.4)_30%)]
+              [background-image:var(--light-gradient),var(--light-aurora)]
+              dark:[background-image:var(--dark-gradient),var(--dark-aurora)]
               [background-size:300%,_200%]
               [background-position:50%_50%,50%_50%]
-              filter blur-[10px] invert dark:invert-0
-              after:content-[""] after:absolute after:inset-0 after:[background-image:var(--white-gradient),var(--aurora)] 
-              after:dark:[background-image:var(--dark-gradient),var(--aurora)]
+              filter blur-[10px] dark:invert-0
+              after:content-[""] after:absolute after:inset-0 after:[background-image:var(--light-gradient),var(--light-aurora)] 
+              after:dark:[background-image:var(--dark-gradient),var(--dark-aurora)]
               after:[background-size:200%,_100%] 
-              after:animate-aurora after:[background-attachment:fixed] after:mix-blend-difference
+              after:animate-aurora after:[background-attachment:fixed] after:mix-blend-overlay
               pointer-events-none
-              absolute -inset-[10px] opacity-50 will-change-transform`,
+              absolute -inset-[10px] opacity-70 dark:opacity-50 will-change-transform
+              transition-opacity duration-300`,
 
               showRadialGradient &&
                 `[mask-image:radial-gradient(ellipse_at_100%_0%,black_10%,var(--transparent)_70%)]`
