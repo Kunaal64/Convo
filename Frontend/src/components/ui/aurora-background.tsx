@@ -16,18 +16,19 @@ export const AuroraBackground = ({
   return (
     <main className="relative">
       <div className={cn("fixed inset-0 overflow-hidden -z-10", className)}>
-        {/* Background gradient - more subtle in light mode */}
+        {/* Enhanced background gradient with better contrast */}
         <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-zinc-900 dark:via-zinc-900 dark:to-zinc-950" />
         
-        {/* Aurora effect - more subtle in light mode */}
+        {/* Enhanced aurora effect with better brightness and contrast */}
         <div 
-          className="absolute -inset-24 opacity-30 dark:opacity-50 transition-opacity duration-300"
+          className="absolute -inset-24 opacity-50 dark:opacity-60 transition-all duration-700"
           style={{
             backgroundImage:
-              'radial-gradient(at 40% 20%, hsla(220, 100%, 74%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 80% 0%, hsla(200, 100%, 56%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 0% 50%, hsla(220, 100%, 93%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 80% 50%, hsla(260, 100%, 76%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 0% 100%, hsla(220, 100%, 77%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 80% 100%, hsla(240, 100%, 70%, 0.3) 0px, transparent 50%),\n               radial-gradient(at 0% 0%, hsla(220, 100%, 76%, 0.3) 0px, transparent 50%)',
-            animation: 'aurora 20s ease infinite',
+              'radial-gradient(at 40% 20%, hsla(220, 100%, 74%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 80% 0%, hsla(200, 100%, 66%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 0% 50%, hsla(220, 100%, 93%, 0.6) 0px, transparent 50%),\n               radial-gradient(at 80% 50%, hsla(260, 100%, 76%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 0% 100%, hsla(220, 100%, 77%, 0.6) 0px, transparent 50%),\n               radial-gradient(at 80% 100%, hsla(240, 100%, 75%, 0.5) 0px, transparent 50%),\n               radial-gradient(at 0% 0%, hsla(220, 100%, 76%, 0.6) 0px, transparent 50%)',
+            animation: 'aurora 18s ease infinite',
             backgroundSize: '200% 200%',
             backgroundPosition: '50% 50%',
+            filter: 'saturate(1.2) brightness(1.1)',
           }}
         />
       </div>
